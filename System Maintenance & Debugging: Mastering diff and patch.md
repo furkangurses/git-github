@@ -192,3 +192,51 @@ drwxrwxr-x 2 user user 4096 Jul  9 18:16 info
 drwxrwxr-x 4 user user 4096 Jul  9 18:16 objects
 drwxrwxr-x 4 user user 4096 Jul  9 18:16 refs
 ```
+
+
+## 📝 Git & System Maintenance Cheat Sheet
+
+This section provides a quick reference for the most commonly used commands in this course.
+
+### 🔍 System Maintenance (Diff & Patch)
+| Command | Description |
+| :--- | :--- |
+| `diff file1 file2` | Compares two files and shows differences. |
+| `diff -u file1 file2` | Shows differences in **Unified Format** (with context). |
+| `diff -u old_file new_file > change.diff` | Generates a patch file. |
+| `patch original_file < change.diff` | Applies a patch to the original file. |
+
+### ⚙️ Configuration
+| Command | Description |
+| :--- | :--- |
+| `git config --global user.name "Name"` | Sets your commit username. |
+| `git config --global user.email "email@example.com"` | Sets your commit email. |
+| `git config -l` | Lists all current Git configurations. |
+
+### 🛠️ Basic Workflow (Local)
+| Command | Description |
+| :--- | :--- |
+| `git init` | Initializes a new local Git repository. |
+| `git status` | Shows the status of the working tree and staging area. |
+| `git add <file>` | Adds a file to the **Staging Area** (Tracks the file). |
+| `git add .` | Adds all modified/new files to the staging area. |
+| `git commit` | Opens editor to write a commit message for staged changes. |
+| `git commit -m "Message"` | Commits staged changes with a short message. |
+| `git log` | Displays the commit history (Snapshots). |
+
+### 📂 File Management
+| Command | Description |
+| :--- | :--- |
+| `git rm <file>` | Removes a file from the working tree and stages the deletion. |
+| `git mv <old> <new>` | Renames/Moves a file and stages the change. |
+| `ls -la .git/` | Inspects the internal Git database directory. |
+
+### ⏪ Undoing Changes
+| Command | Description |
+| :--- | :--- |
+| `git checkout <file>` | Reverts changes in a file to the last committed state. |
+| `git reset HEAD <file>` | Unstages a file (removes it from the staging area). |
+| `git commit --amend` | Overwrites the last commit with current staged changes. |
+
+---
+*Note: Use `git <command> --help` to see the full manual for any specific command.*

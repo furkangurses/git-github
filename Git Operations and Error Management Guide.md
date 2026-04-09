@@ -232,3 +232,188 @@ Unstage a file
 Modify last commit / Add missing file
 
 `git commit --amend`
+
+
+---
+
+
+
+# 🛠️ Advanced Git Engineering: Branching, Merging & History Management
+
+> **Engineer's Note:** This documentation provides a technical overview of Git operations beyond the basics. It focuses on patch management, safe undo strategies, and complex branching workflows used in high-availability infrastructure projects.
+
+---
+
+## 🔍 1. Inspecting Changes & Patch Management
+
+In an engineering environment, reviewing exactly which lines of code are modified is critical before pushing to a production branch.
+
+### 📝 Viewing Diffs and Patches
+Instead of just checking status, we use `diff` and `log -p` to inspect the actual code changes (the "patch").
+
+```bash
+# View changes in the working directory vs the index
+$ git diff
+
+# View staged changes (ready to be committed)
+$ git diff --staged
+
+# View the commit history with actual code changes (patches)
+$ git log -p
+
+# Show details of a specific commit or object
+$ git show <commit_id>
+
+```
+
+### 🎯 Interactive Staging (`git add -p`)
+
+To maintain clean commits, use the interactive patch mode. This allows you to review and stage specific "hunks" of code rather than the whole file.
+
+Bash
+
+```
+# Interactively choose which changes to stage
+$ git add -p
+
+```
+
+----------
+
+## ⏪ 2. Undo Strategies & Safety Protocols
+
+As an engineer, knowing how to recover from a bad configuration or a broken script is paramount.
+
+### 🛡️ Safe Reversion vs. Destructive Reset
+
+-   **`git revert`**: Creates a _new_ commit that undoes changes. Safe for public branches.
+    
+-   **`git reset`**: Moves the branch pointer. Use with caution.
+    
+
+Bash
+
+```
+# Revert a specific commit safely without rewriting history
+$ git revert <commit_id>
+
+# Unstage files without losing local work (Soft Reset)
+$ git reset
+
+# TEMPORARY STORAGE: Stash changes before a hard reset or branch switch
+$ git stash
+$ git stash pop
+
+```
+
+### ✍️ Amending the Last Commit
+
+If you forgot to add a configuration file or made a typo in the message of your _local_ commit:
+
+Bash
+
+```
+# Stage the forgotten file
+$ git add config.yaml
+
+# Overwrite the previous commit
+$ git commit --amend
+
+```
+
+----------
+
+## 🌿 3. Branching & Merging Workflows
+
+Isolation of features and fixes is handled through robust branching strategies.
+
+### 🏗️ Branch Management
+
+Bash
+
+```
+# List all local branches
+$ git branch
+
+# Create a new feature branch and switch to it immediately
+$ git checkout -b feature/api-gateway-auth
+
+# Delete a branch after a successful merge
+$ git branch -d feature/api-gateway-auth
+
+# Force delete an unmerged branch (Use only if data loss is acceptable)
+$ git branch -D obsolete-experiment
+
+```
+
+### 🤝 Merging and Conflict Resolution
+
+Integrating changes from a feature branch into the `main` branch.
+
+Bash
+
+```
+# Merge the feature branch into current branch
+$ git merge <feature-branch>
+
+# If a merge goes wrong or conflicts are too complex, abort safely
+$ git merge --abort
+
+```
+
+----------
+
+## 📈 4. Visualizing History
+
+Tracking complex merge histories in a microservices architecture requires high-level visualization tools.
+
+Bash
+
+```
+# View a condensed, one-line history
+$ git log --oneline
+
+# View an ASCII graph of commits, branches, and merges
+$ git log --graph --oneline --all
+
+```
+
+----------
+
+## 🚀 Engineering Cheat Sheet
+
+**Command**
+
+**Use Case**
+
+**Risk Level**
+
+`git commit -a`
+
+Stage all modified files and commit in one go.
+
+Medium (Avoid for new files)
+
+`git checkout <file>`
+
+Restore a file to its last committed state.
+
+High (Loses local work)
+
+`git stash`
+
+Shelve changes to work on something else.
+
+Low (Very Safe)
+
+`git revert`
+
+Roll back a production bug with a trace.
+
+Low (Safe for Public)
+
+`git reset --hard`
+
+Force reset to a specific commit.
+
+Critical (Permanent Data Loss)
